@@ -1,4 +1,5 @@
 import React from 'react';
+import ToggleButtonGroup from '../common/ToggleButtonGroup';
 
 const RiskFactorsSection = ({ data, onChange }) => {
   return (
@@ -48,8 +49,8 @@ const RiskFactorsSection = ({ data, onChange }) => {
                                         { v: 2, l: 'Więcej niż połowa' },
                                         { v: 3, l: 'Niemal codziennie' }
                                     ].map(opt => (
-                                        <label key={opt.v} style={{ fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.3rem', cursor: 'pointer', padding: '0.3rem 0.6rem', background: data[q.name] === opt.v ? '#0ea5e9' : '#fff', color: data[q.name] === opt.v ? '#fff' : '#0c4a6e', borderRadius: '6px', border: '1px solid #7dd3fc', transition: '0.2s' }}>
-                                            <input type="radio" name={q.name} value={opt.v} checked={data[q.name] === opt.v} onChange={onChange} style={{ display: 'none' }} />
+                                        <label key={opt.v} style={{ fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.3rem', cursor: 'pointer', padding: '0.35rem 0.7rem', background: Number(data[q.name]) === opt.v ? '#0ea5e9' : '#fff', color: Number(data[q.name]) === opt.v ? '#fff' : '#0c4a6e', borderRadius: '8px', border: '2px solid', borderColor: Number(data[q.name]) === opt.v ? '#0ea5e9' : '#bae6fd', transition: '0.2s', fontWeight: Number(data[q.name]) === opt.v ? 'bold' : '400', boxShadow: Number(data[q.name]) === opt.v ? '0 0 10px rgba(14, 165, 233, 0.4)' : 'none' }}>
+                                            <input type="radio" name={q.name} value={opt.v} checked={Number(data[q.name]) === opt.v} onChange={onChange} style={{ display: 'none' }} />
                                             {opt.l}
                                         </label>
                                     ))}
@@ -91,8 +92,8 @@ const RiskFactorsSection = ({ data, onChange }) => {
                                         { v: 2, l: 'Więcej niż połowa' },
                                         { v: 3, l: 'Niemal codziennie' }
                                     ].map(opt => (
-                                        <label key={opt.v} style={{ fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.3rem', cursor: 'pointer', padding: '0.3rem 0.6rem', background: data[q.n] === opt.v ? '#e11d48' : '#fff', color: data[q.n] === opt.v ? '#fff' : '#4c0519', borderRadius: '6px', border: '1px solid #fda4af', transition: '0.2s' }}>
-                                            <input type="radio" name={q.n} value={opt.v} checked={data[q.n] === opt.v} onChange={onChange} style={{ display: 'none' }} />
+                                        <label key={opt.v} style={{ fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.3rem', cursor: 'pointer', padding: '0.35rem 0.7rem', background: Number(data[q.n]) === opt.v ? '#e11d48' : '#fff', color: Number(data[q.n]) === opt.v ? '#fff' : '#4c0519', borderRadius: '8px', border: '2px solid', borderColor: Number(data[q.n]) === opt.v ? '#e11d48' : '#fda4af', transition: '0.2s', fontWeight: Number(data[q.n]) === opt.v ? 'bold' : '400', boxShadow: Number(data[q.n]) === opt.v ? '0 0 10px rgba(225, 29, 72, 0.4)' : 'none' }}>
+                                            <input type="radio" name={q.n} value={opt.v} checked={Number(data[q.n]) === opt.v} onChange={onChange} style={{ display: 'none' }} />
                                             {opt.l}
                                         </label>
                                     ))}

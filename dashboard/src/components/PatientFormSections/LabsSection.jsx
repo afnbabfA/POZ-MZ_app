@@ -1,5 +1,6 @@
 import React from 'react';
 import LabelWithTooltip from './LabelWithTooltip';
+import ToggleButtonGroup from '../common/ToggleButtonGroup';
 
 const LabsSection = ({ data, onChange }) => {
   return (
@@ -12,26 +13,30 @@ const LabsSection = ({ data, onChange }) => {
             
             <h4 style={{fontSize: '0.9rem', marginBottom: '0.5rem', color: '#64748b'}}>Zakres Podstawowy (np. Morfologia, Mocz, eGFR)</h4>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '1rem' }}>
-                <div className="form-group" style={{position: 'relative'}}>
-                    <LabelWithTooltip label="Morfologia" tooltipText="Sprawdź: Niedokrwistość, makrocytoza, WBC, PLT." />
-                    <select className="form-control" name="lab_morf" value={data.lab_morf || ''} onChange={onChange}>
-                        <option value="">-- z wynikiem --</option>
-                        <option value="w normie">W normie</option>
-                        <option value="odchylenia">Odchylenia (patologia)</option>
-                    </select>
-                </div>
+                <ToggleButtonGroup 
+                    label="Morfologia" 
+                    name="lab_morf" 
+                    value={data.lab_morf || ''} 
+                    onChange={onChange} 
+                    options={[
+                        { value: 'w normie', label: 'W normie' },
+                        { value: 'odchylenia', label: 'Odchylenia' }
+                    ]}
+                />
                 <div className="form-group" style={{position: 'relative'}}>
                     <LabelWithTooltip label="Glukoza na czczo" tooltipText="Norma < 100 mg/dL. (100-125 to stan przedcukrzycowy)" />
                     <input type="number" className="form-control" name="glucose" value={data.glucose || ''} onChange={onChange} placeholder="mg/dL" />
                 </div>
-                <div className="form-group" style={{position: 'relative'}}>
-                    <LabelWithTooltip label="Mocz ogólny" tooltipText="Zwróć uwagę na krwinkomocz, białkomocz, cukromocz." />
-                    <select className="form-control" name="lab_mocz" value={data.lab_mocz || ''} onChange={onChange}>
-                        <option value="">-- z wynikiem --</option>
-                        <option value="w normie">W normie</option>
-                        <option value="odchylenia">Odchylenia (patologia)</option>
-                    </select>
-                </div>
+                <ToggleButtonGroup 
+                    label="Mocz ogólny" 
+                    name="lab_mocz" 
+                    value={data.lab_mocz || ''} 
+                    onChange={onChange} 
+                    options={[
+                        { value: 'w normie', label: 'W normie' },
+                        { value: 'odchylenia', label: 'Odchylenia' }
+                    ]}
+                />
                 <div className="form-group"><label>Kreatynina</label><input type="number" className="form-control" name="lab_kreatynina" value={data.lab_kreatynina || ''} onChange={onChange} /></div>
                 <div className="form-group" style={{position: 'relative'}}>
                     <LabelWithTooltip label="eGFR (Nerek)" tooltipText="Norma > 60. Poniżej może sugerować PChN." />
@@ -61,14 +66,16 @@ const LabsSection = ({ data, onChange }) => {
                     <LabelWithTooltip label="PSA Całkowity" tooltipText="Norma typowo < 4.0 ng/mL zależnie od wieku" />
                     <input type="number" className="form-control" name="lab_psa" value={data.lab_psa || ''} onChange={onChange} />
                 </div>
-                <div className="form-group" style={{position: 'relative'}}>
-                    <LabelWithTooltip label="Anty-HCV" tooltipText="Dodatni nakazuje dalszą diagnostykę (RNA HCV)" />
-                    <select className="form-control" name="lab_hcv" value={data.lab_hcv || ''} onChange={onChange}>
-                        <option value="">-- z wynikiem --</option>
-                        <option value="ujemny">Ujemny</option>
-                        <option value="dodatni">Dodatni / Reaktywny</option>
-                    </select>
-                </div>
+                <ToggleButtonGroup 
+                    label="Anty-HCV" 
+                    name="lab_hcv" 
+                    value={data.lab_hcv || ''} 
+                    onChange={onChange} 
+                    options={[
+                        { value: 'ujemny', label: 'Ujemny' },
+                        { value: 'dodatni', label: 'Dodatni' }
+                    ]}
+                />
                 <div className="form-group"><label>Lipoproteina (a) (mg/dL)</label><input type="number" className="form-control" name="lpa" value={data.lpa || ''} onChange={onChange} /></div>
             </div>
 

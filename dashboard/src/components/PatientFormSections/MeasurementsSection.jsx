@@ -1,5 +1,6 @@
 import React from 'react';
 import LabelWithTooltip from './LabelWithTooltip';
+import ToggleButtonGroup from '../common/ToggleButtonGroup';
 
 const MeasurementsSection = ({ data, onChange, bmi, whr }) => {
   return (
@@ -200,42 +201,40 @@ const MeasurementsSection = ({ data, onChange, bmi, whr }) => {
                 <div style={{ background: '#fff', padding: '0.8rem', borderRadius: '4px', border: '1px solid #e9d5ff', fontSize: '0.8rem', color: '#4c1d95', lineHeight: '1.4' }}>
                     <strong style={{ display: 'block', marginBottom: '0.3rem' }}>Instrukcja wykonania:</strong>
                     <strong>Krok 1:</strong> Powiedz: <em>„Proszę uważnie wysłuchać i powtórzyć 3 słowa, a następnie je zapamiętać: np. Banan, Wschód, Krzesło”</em> (możesz powtórzyć maks. 3 razy).<br/><br/>
-                    <strong>Krok 2:</strong> Powiedz: <em>„Proszę narysować tutaj tarczę zegara, wpisać wszystkie cyfry i narysować wskazówki na godzinę 11:10”.</em><br/><br/>
                     <strong>Krok 3:</strong> Powiedz: <em>„A teraz proszę mi powiedzieć, jakie trzy słowa kazałem(am) Panu/Pani wcześniej zapamiętać?”</em>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <strong style={{ fontSize: '0.85rem', color: '#4c1d95' }}>Krok 3: Przypomnienie spontaniczne 3 słów</strong>
-                    <select name="minicog_words" value={data.minicog_words} onChange={onChange} style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #c4b5fd' }}>
-                        <option value="">-- Wybierz liczbę słów --</option>
-                        <option value="0">0 przypomnianych słów (0 pkt)</option>
-                        <option value="1">1 przypomniane słowo (1 pkt)</option>
-                        <option value="2">2 przypomniane słowa (2 pkt)</option>
-                        <option value="3">3 przypomniane słowa (3 pkt)</option>
-                    </select>
-                </div>
+                <ToggleButtonGroup 
+                    label="Krok 3: Przypomnienie spontaniczne 3 słów" 
+                    name="minicog_words" 
+                    value={data.minicog_words} 
+                    onChange={onChange} 
+                    options={[
+                        { value: '0', label: '0 słów' },
+                        { value: '1', label: '1 słowo' },
+                        { value: '2', label: '2 słowa' },
+                        { value: '3', label: '3 słowa' }
+                    ]}
+                />
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                 <div style={{ background: '#fff', padding: '0.8rem', borderRadius: '4px', border: '1px solid #e9d5ff', fontSize: '0.8rem', color: '#4c1d95', lineHeight: '1.4' }}>
                     <strong style={{ display: 'block', marginBottom: '0.3rem' }}>Zasady punktacji Zegara (tylko 0 lub 2 pkt):</strong>
-                    Aby przyznać <strong>2 punkty</strong>, zegar musi być w 100% poprawny:
-                    <ul style={{ margin: '0.3rem 0 0 0', paddingLeft: '1.2rem' }}>
-                        <li>Wszystkie cyfry od 1 do 12 wpisane w odpowiedniej kolejności.</li>
-                        <li>Cyfry poprawnie rozmieszczone na tarczy.</li>
-                        <li>Obie wskazówki narysowane i wskazujące dokładnie godzinę 11 i 2 (11:10).</li>
-                    </ul>
-                    Każdy inny błąd, brak cyfry lub odmowa narysowania = <strong>0 pkt</strong>.
+                    Aby przyznać <strong>2 punkty</strong>, zegar musi być w 100% poprawny (cyfry, rozmieszczenie, wskazówki na 11:10).
+                    Każdy błąd = <strong>0 pkt</strong>.
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <strong style={{ fontSize: '0.85rem', color: '#4c1d95' }}>Krok 2: Oceny Rysowania Zegara</strong>
-                    <select name="minicog_clock" value={data.minicog_clock} onChange={onChange} style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #c4b5fd' }}>
-                        <option value="">-- Oceń rysunek zegara --</option>
-                        <option value="0">Zegar narysowany BŁĘDNIE (0 pkt)</option>
-                        <option value="2">Zegar narysowany PRAWIDŁOWO (2 pkt)</option>
-                    </select>
-                </div>
+                <ToggleButtonGroup 
+                    label="Krok 2: Oceny Rysowania Zegara" 
+                    name="minicog_clock" 
+                    value={data.minicog_clock} 
+                    onChange={onChange} 
+                    options={[
+                        { value: '0', label: 'BŁĘDNIE (0 pkt)' },
+                        { value: '2', label: 'PRAWIDŁOWO (2 pkt)' }
+                    ]}
+                />
             </div>
         </div>
 
