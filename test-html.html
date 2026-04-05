@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div id="content">
+        <h1>Hello</h1>
+    </div>
+    <script>
+        html2pdf().from(document.getElementById('content')).output('arraybuffer').then(buffer => console.log(buffer.byteLength));
+    </script>
+</body>
+</html>
