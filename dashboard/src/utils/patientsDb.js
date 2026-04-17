@@ -15,7 +15,7 @@ export const getInitialPatientState = () => ({
     cvd: false, ckd: false, depression: false, cognitive: false, psychosocial: false, family_cvd: false, family_cancer: false, ticks_exposure: false,
     lung_cough: false, lung_dyspnea: false, lung_sputum: false, lung_hemoptysis: false, lung_weight_loss: false, lung_chest_pain: false,
     minicog_words: '', minicog_clock: '',
-    last_fit: '', last_mammography: '', last_hpv: '',
+    last_fit: '', last_mammography: '',
     lab_morf: '', lab_kreatynina: '', egfr: '', lab_tsh: '', lab_mocz: '',
     lab_alt: '', lab_ast: '', lab_ggtp: '', lab_psa: '', lab_hcv: ''
 });
@@ -73,7 +73,7 @@ export const generateMockPatients = () => {
         { imie_nazwisko: 'Maria Wójcik', pesel: '92081522222', age: '33', gender: 'F' },
         { imie_nazwisko: 'Tomasz Kowalczyk', pesel: '55110133333', age: '70', gender: 'M' }
     ];
-    
+
     const patients = getPatients();
     mocks.forEach(m => {
         const p = { ...getInitialPatientState(), ...m };

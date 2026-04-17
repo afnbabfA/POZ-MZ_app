@@ -157,12 +157,8 @@ const RiskFactorsSection = ({ data, onChange }) => {
         {/* Dodatkowe czynniki cywilizacyjne */}
         <div style={{ borderTop: '1px dashed #cbd5e1', paddingTop: '0.5rem', marginTop: '0.5rem' }}>
              <p style={{fontSize: '0.85rem', color: '#64748b', marginBottom: '0.5rem', marginTop: 0}}>Pozostałe czynniki współczesnych chorób cywilizacyjnych:</p>
-             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {[
-                  {name: 'stress', label: 'Przewlekły stres / Wypalenie zawodowe'},
-                  {name: 'sleep_apnea', label: 'Praca zmianowa / Niewystarczający sen (bezdech)'},
-                  {name: 'pollution', label: 'Narażenie na zanieczyszczenia (Smog, Środowisko pracy)'},
-                  {name: 'sedentary', label: 'Skrajnie siedzący tryb życia (np. praca >8h przed komputerem)'},
                   {name: 'isolation', label: 'Izolacja społeczna / Poczucie samotności'}
                 ].map(item => (
                     <div key={item.name}>
