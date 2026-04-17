@@ -4,6 +4,8 @@ export const getInitialPatientState = () => ({
     id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
     createdAt: new Date().toISOString(),
     status: 'new', // new, in_prep, ready, visited
+    surveyCompleted: false,
+    labsCompleted: false,
     imie_nazwisko: '', pesel: '', age: '', gender: '',
     height: '', weight: '', waist: '', hips: '',
     sbp: '', dbp: '', hr: '', spo2: '', rr: '', glucose: '', tc: '', ldl: '', hdl: '', tg: '', lpa: '', score2: '',
