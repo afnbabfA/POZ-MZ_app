@@ -1,5 +1,6 @@
 import React from 'react';
 import { analyzePesel } from '../utils/peselUtils';
+import LabelWithTooltip from './PatientFormSections/LabelWithTooltip';
 
 const SurveyQuestion = ({ number, title, name, data, onChange, options = [], type = 'radio' }) => {
     return (
@@ -326,8 +327,21 @@ const PreVisitForm = ({ data, onChange }) => {
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
-                    <div className="form-group">
-                        <label>Lipoproteina(a) (mg/dL)</label>
+                    <div className="form-group" style={{position: 'relative'}}>
+                        <LabelWithTooltip 
+                            label="Lipoproteina(a) (mg/dL)" 
+                            tooltipText={
+                                <div style={{ lineHeight: '1.4' }}>
+                                    Oto szczegółowa interpretacja wyników Lp(a) według wytycznych:
+                                    <ul style={{ marginTop: '0.4rem', paddingLeft: '1.2rem', marginBottom: 0 }}>
+                                        <li><strong>Prawidłowy/Optymalny:</strong> &lt;30 mg/dL (&lt;75 nmol/L)</li>
+                                        <li><strong>Podwyższony (umiarkowane ryzyko):</strong> 30–50 mg/dL (75–125 nmol/L)</li>
+                                        <li><strong>Wysoki (duże ryzyko):</strong> &gt;50 mg/dL (&gt;125 nmol/L)</li>
+                                        <li><strong>Bardzo wysoki:</strong> &gt;180 mg/dL (bardzo duże ryzyko sercowo-naczyniowe)</li>
+                                    </ul>
+                                </div>
+                            } 
+                        />
                         <input type="number" className="form-control" name="lpa" value={data.lpa || ''} onChange={handleChange} />
                     </div>
                     <div className="form-group">

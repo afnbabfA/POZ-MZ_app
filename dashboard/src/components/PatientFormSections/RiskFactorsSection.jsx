@@ -26,6 +26,17 @@ const RiskFactorsSection = ({ data, onChange }) => {
                     <label htmlFor={item.name} style={{ margin: 0, fontWeight: 500, cursor: 'pointer', paddingLeft: '8px' }}>{item.label}</label>
                 </div>
                 
+                {/* Family CVD Sub-question */}
+                {item.name === 'family_cvd' && data.family_cvd && (
+                    <div style={{ marginLeft: '2.5rem', marginTop: '0.5rem', padding: '0.8rem', background: '#fef2f2', borderRadius: '8px', border: '1px solid #fecaca', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                        <p style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#991b1b', margin: 0 }}>Wywiad pogłębiony (S-N):</p>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.85rem', color: '#7f1d1d' }}>
+                            <input type="checkbox" name="family_cvd_early" checked={data.family_cvd_early || false} onChange={onChange} />
+                            Wczesne zdarzenia S-N lub nagły zgon sercowy w młodym wieku (Mężczyźni &lt; 55 r.ż., Kobiety &lt; 65 r.ż.)
+                        </label>
+                    </div>
+                )}
+                
                 {/* PHQ-2 Screening (Progressive) */}
                 {(item.name === 'depression' && (data.depression || data.iso_symptoms || data.iso_life_threat)) && (
                     <div style={{ marginLeft: '2.5rem', marginTop: '0.8rem', padding: '1rem', background: '#f0f9ff', borderRadius: '12px', border: '1px solid #bae6fd' }}>

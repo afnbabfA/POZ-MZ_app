@@ -9,7 +9,7 @@ export const evaluatePatient = (data) => {
   const {
     age, gender, smoking, height, weight, waist, hips,
     glucose, tc, ldl, hdl, tg, lpa, last_fit, last_mammography, family_history,
-    sbp, dbp, hr, spo2, rr, score2, ticks_exposure, diabetes, ckd, cvd, egfr, family_cvd, fh
+    sbp, dbp, hr, spo2, rr, score2, ticks_exposure, diabetes, ckd, cvd, egfr, family_cvd, family_cvd_early, fh
   } = data;
 
   // --- OBLICZENIA ---
@@ -17,6 +17,10 @@ export const evaluatePatient = (data) => {
   const whr = (waist && hips) ? parseFloat((waist / hips).toFixed(2)) : null;
 
   // --- FLAGS (Czerwone flagi kliniczne) ---
+  if (family_cvd_early) {
+    flags.push({ level: 'warning', text: `Obciążony wywiad rodzinny (wczesne zdarzenia S-N). Wskazane ściślejsze monitorowanie ryzyka.`, id: 'family_risk' });
+  }
+
   if (glucose || diabetes) {
     if (diabetes) flags.push({ level: 'danger', text: `Cukrzyca. Zwiększone ryzyko.`, id: 'dia' });
     else if (glucose >= 100 && glucose <= 125) flags.push({ level: 'warning', text: `Glukoza ${glucose} mg/dL: Stan przedcukrzycowy.`, id: 'gluc1' });
@@ -54,7 +58,7 @@ export const evaluatePatient = (data) => {
 
   // Twarde kryteria wysokiego ryzyka niezależnego od SCORE2
   const hasCkd = ckd || (egfr && egfr < 60);
-  if (hasCkd || (bmi && bmi >= 30) || family_cvd || fh) {
+  if (hasCkd || (bmi && bmi >= 30) || fh) {
     flags.push({ level: 'danger', text: `Uwaga: Pacjent wysokiego ryzyka sercowo-naczyniowego z uwagi na choroby współistniejące (PChN/Otyłość/Hipercholesterolemia).`, id: 'hard_risk' });
   }
 
@@ -109,6 +113,14 @@ export const evaluatePatient = (data) => {
     diagnostics.push({ name: 'Spirometria / RTG Klatki (CHZP)', due: 'Rozważyć po ocenie objawów astma/POChP', id: 'diag_chzp' });
   }
 
+  if (gender === 'F') {
+    if (age >= 25 && age <= 64) {
+      diagnostics.push({ name: 'Test HPV DNA (HR) / Cytologia LBC', due: 'ZALECANE (Skryning - Podstawowo Test HPV HR co 5 lat)', id: 'diag_hpv' });
+    } else if (age > 64) {
+      diagnostics.push({ name: 'Profilaktyka Raka Szyjki Macicy', due: 'Opcjonalne. Kontynuacja opieki w trybie trybie indywidualnym wg decyzji lekarza.', id: 'diag_hpv_senior' });
+    }
+  }
+
   // --- RECOMMENDATIONS (Zalecenia ogólne i szczepienia) ---
   const {
     vac_dtap, vac_flu, vac_covid, vac_shingles, vac_pneumo, vac_rsv,
@@ -148,6 +160,16 @@ export const evaluatePatient = (data) => {
   } else {
     if (!vac_mmr) recommendations.push("Do rozważenia: MMR (przy braku odporności).");
     if (!vac_varicella) recommendations.push("Do rozważenia: Ospa wietrzna (brak przechorowania).");
+  }
+
+  if (gender === 'F') {
+    if (age < 25) {
+      recommendations.push("Profilaktyka Raka Szyjki Macicy: Zgodnie ze standardem PTGiP u kobiet poniżej 25 r.ż. rutynowe badania przesiewowe (cytologia, badanie HPV) NIE są zalecane. Priorytetem pozostają szczepienia ochronne przeciw HPV. Po ukończeniu 24. roku życia zaleca się rozpoczęcie regularnych badań przesiewowych (screening).");
+    } else if (age <= 64) {
+      recommendations.push("Profilaktyka Raka Szyjki Macicy: Podstawowym badaniem przesiewowym jest Test HPV DNA (HR) z genotypowaniem co 5 lat. Jeśli jest niedostępny - cytologia płynna (LBC) co 3 lata. Wynik dodatni (+) testu HPV rodzi konieczność wykonania triage z użyciem cytologii (LBC). Przygotowanie do badania: min. 4 dni po i 4 dni przed menstruacją; 24h przed bez współżycia; nie używać globulek i irygacji przez 4 dni.");
+    } else {
+      recommendations.push("Profilaktyka Raka Szyjki Macicy: Pacjentki po 65 r.ż. nie podlegają ogólnej profilaktyce populacyjnej - ew. kontynuowanie badań w trybie indywidualnym w porozumieniu ze swoim lekarzem prowadzącym (ginekologiem).");
+    }
   }
 
   // 5. Podróż

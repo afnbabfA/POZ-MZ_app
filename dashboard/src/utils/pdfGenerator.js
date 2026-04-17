@@ -184,7 +184,7 @@ export const generateNativePDF = async (patientData, settings, recommendations =
     const ckdFlag = patientData.ckd || (patientData.egfr && Number(patientData.egfr) < 60);
     if (patientData.cvd) globalRisk = 3; // Choroba naczyniowa = Od razu bardzo wysokie
     else if (ckdFlag || patientData.diabetes) globalRisk = Math.max(globalRisk, 2); // PChN / Cukrzyca = min. wysokie ryzyko
-    else if (patientData.fh || patientData.family_cvd) globalRisk = Math.max(globalRisk, 2); // FH = wysokie ryzyko
+    else if (patientData.fh) globalRisk = Math.max(globalRisk, 2); // FH = wysokie ryzyko
     else if (patientData.sbp >= 180 || patientData.dbp >= 110) globalRisk = Math.max(globalRisk, 2); // Ciężkie NT = wysokie ryzyko
     else if (patientData.tc > 310 || patientData.ldl > 190) globalRisk = Math.max(globalRisk, 2); // Ciężka Hipercholesterolemia
 
@@ -218,16 +218,33 @@ export const generateNativePDF = async (patientData, settings, recommendations =
     if (patientData.low_activity) drawCheck(pages, 'zal_physical');
     if (patientData.glucose >= 100 || patientData.diabetes) drawCheck(pages, 'zal_glucose');
 
+    // Profilaktyka raka szyjki macicy (Skryning zalecany miedzy 25 a 64 r.ż.)
+    if (patientData.gender === 'F' && patientData.age >= 25 && patientData.age <= 64) {
+        drawCheck(pages, 'zal_cyto');
+        // Jeśli mamy datę ostatniego badania, nie zaszkodzi obliczyć, w przeciwnym razie ustawiamy 'co 5 lat / PILNE'
+        const cytoDateText = patientData.last_hpv ? String(parseInt(patientData.last_hpv) + 5) : (patientData.last_cyto ? String(parseInt(patientData.last_cyto) + 3) : 'co 5 lat / pilne');
+        drawText(pages, 'zal_cyto_date', cytoDateText, 10, customFont);
+    }
+
+    // Program Profilaktyki Raka Piersi
     if (patientData.gender === 'F' && patientData.age >= 45 && patientData.age <= 74) {
         drawCheck(pages, 'zal_mammo');
+        const mammoDateText = patientData.last_mammography ? String(parseInt(patientData.last_mammography) + 2) : 'co 2 lata / pilne';
+        drawText(pages, 'zal_mammo_date', mammoDateText, 10, customFont);
     }
+    
+    // Profilaktyka Raka Jelita Grubego
     if (patientData.age >= 50 && patientData.age <= 74) {
         drawCheck(pages, 'zal_fit');
+        const fitDateText = patientData.last_fit ? String(parseInt(patientData.last_fit) + 2) : 'co 2 lata / pilne';
+        drawText(pages, 'zal_fit_date', fitDateText, 10, customFont);
     }
+
     if (patientData.smoking) drawCheck(pages, 'zal_smoking');
     if (patientData.alcohol) drawCheck(pages, 'zal_alcohol');
 
     drawText(pages, 'provider', settings.providerName, 12, customFont);
+    drawText(pages, 'zal_vaccinations', '(patrz: załącznik)', 10, customFont);
 
     if (settings.facilityName) {
         pages[1].drawText(String(settings.facilityName), {
@@ -266,6 +283,11 @@ export const generateNativePDF = async (patientData, settings, recommendations =
 
     if (patientData._cardiopulmonary_override) {
         draftRecs.push("UWAGA: Z powodu nakładania ryzyka sercowo-płucnego (podejrzenie POChP we współistnieniu), globalne ryzyko sercowo-naczyniowe na stronie 1 sklasyfikowano jako Bardzo Wysokie.");
+    }
+
+    // -- Wywiad Rodzinny (Nagłe zgony sercowe / Wczesne S-N) --
+    if (patientData.family_cvd && patientData.family_cvd_early) {
+        draftRecs.push("Z uwagi na obciążony wywiad rodzinny (wczesne zdarzenia sercowo-naczyniowe / nagły zgon sercowy w młodym wieku), wskazane jest ściślejsze monitorowanie profilu lipidowego oraz utrzymywanie rygoru zdrowego stylu życia.");
     }
 
     // -- Skala Mini-COG --
