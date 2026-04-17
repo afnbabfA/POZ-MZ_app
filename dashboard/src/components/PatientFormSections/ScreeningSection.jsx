@@ -6,7 +6,7 @@ const ScreeningSection = ({ data, onChange }) => {
     <>
       <hr style={{ border: 'none', borderTop: '1px solid #e2e8f0', margin: '1rem 0' }} />
       <h2 className="section-title">📋 4. Ostatnie roczniki badań / Środowisko</h2>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
         <div className="form-group" style={{ position: 'relative' }}>
           <LabelWithTooltip label="Badanie FIT (Rok)" tooltipText={<><strong>FIT (Fecal Immunochemical Test)</strong><br /><br />Wykonywany rutynowo co 2 lata w wieku 50-74 lata.</>} />
           <input type="number" className="form-control" name="last_fit" value={data.last_fit || ''} onChange={onChange} placeholder="Podaj rok, np. 2022" />
@@ -20,6 +20,10 @@ const ScreeningSection = ({ data, onChange }) => {
         <div className="form-group" style={{ position: 'relative' }}>
           <LabelWithTooltip label="Mammografia (Rok)" tooltipText={<><strong>Mammografia</strong><br /><br />Przesiewowo dla kobiet w wieku 45-74 lat (co 2 lata).</>} />
           <input type="number" className="form-control" name="last_mammography" value={data.last_mammography || ''} onChange={onChange} disabled={data.gender !== 'F'} placeholder="Tylko kobiety" />
+        </div>
+        <div className="form-group" style={{ position: 'relative' }}>
+          <LabelWithTooltip label="Test HPV / Cyto (Rok)" tooltipText={<><strong>Profilaktyka Raka Szyjki Macicy</strong><br/><br/>Podaj rok ostatniego testu HPV (skryning zalecany co 5 lat) lub cytologii płynnej (co 3 lata).</>} />
+          <input type="number" className="form-control" name="last_hpv" value={data.last_hpv || ''} onChange={onChange} disabled={data.gender !== 'F'} placeholder="Tylko kobiety" />
         </div>
       </div>
 

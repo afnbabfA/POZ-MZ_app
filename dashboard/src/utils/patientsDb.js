@@ -15,7 +15,7 @@ export const getInitialPatientState = () => ({
     cvd: false, ckd: false, depression: false, cognitive: false, psychosocial: false, family_cvd: false, family_cancer: false, ticks_exposure: false,
     lung_cough: false, lung_dyspnea: false, lung_sputum: false, lung_hemoptysis: false, lung_weight_loss: false, lung_chest_pain: false,
     minicog_words: '', minicog_clock: '',
-    last_fit: '', last_mammography: '',
+    last_fit: '', last_mammography: '', last_hpv: '',
     lab_morf: '', lab_kreatynina: '', egfr: '', lab_tsh: '', lab_mocz: '',
     lab_alt: '', lab_ast: '', lab_ggtp: '', lab_psa: '', lab_hcv: ''
 });
